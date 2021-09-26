@@ -1,6 +1,8 @@
 package com.github.javarushcommunity.jrtb.bot;
 
 import com.github.javarushcommunity.jrtb.command.CommandContainer;
+import com.github.javarushcommunity.jrtb.javarushclient.JavaRushGroupClient;
+import com.github.javarushcommunity.jrtb.service.GroupSubService;
 import com.github.javarushcommunity.jrtb.service.SendBotMessageServiceImpl;
 import com.github.javarushcommunity.jrtb.service.TelegramUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import static com.github.javarushcommunity.jrtb.command.CommandName.*;
 import javax.validation.Valid;
+import java.util.List;
 
 @Component
 public class JavarushTelegramBot extends TelegramLongPollingBot {
@@ -26,9 +29,16 @@ public class JavarushTelegramBot extends TelegramLongPollingBot {
 
     private final CommandContainer commandContainer;
 
+//    @Autowired
+//    public JavarushTelegramBot(TelegramUserService telegramUserService) {
+//        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService);
+//    }
+
     @Autowired
-    public JavarushTelegramBot(TelegramUserService telegramUserService) {
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService);
+    public JavarushTelegramBot(TelegramUserService telegramUserService, JavaRushGroupClient groupClient, GroupSubService groupSubService) {
+        this.commandContainer =
+                new CommandContainer(new SendBotMessageServiceImpl(this),
+                        telegramUserService, groupClient, groupSubService);
     }
 
     @Override
