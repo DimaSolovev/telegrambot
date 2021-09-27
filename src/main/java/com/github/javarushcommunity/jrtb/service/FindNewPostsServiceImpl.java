@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FindNewArticleServiceImpl implements FindNewArticleService {
+public class FindNewPostsServiceImpl implements FindNewPostsService {
 
     public static final String JAVARUSH_WEB_POST_FORMAT = "https://javarush.ru/groups/posts/%s";
 
@@ -21,9 +21,9 @@ public class FindNewArticleServiceImpl implements FindNewArticleService {
     private final SendBotMessageService sendMessageService;
 
     @Autowired
-    public FindNewArticleServiceImpl(GroupSubService groupSubService,
-                                     JavaRushPostClient javaRushPostClient,
-                                     SendBotMessageService sendMessageService) {
+    public FindNewPostsServiceImpl(GroupSubService groupSubService,
+                                   JavaRushPostClient javaRushPostClient,
+                                   SendBotMessageService sendMessageService) {
         this.groupSubService = groupSubService;
         this.javaRushPostClient = javaRushPostClient;
         this.sendMessageService = sendMessageService;
@@ -31,7 +31,7 @@ public class FindNewArticleServiceImpl implements FindNewArticleService {
 
 
     @Override
-    public void findNewArticles() {
+    public void findNewPosts() {
         groupSubService.findAll().forEach(gSub -> {
             List<PostInfo> newPosts = javaRushPostClient.findNewPosts(gSub.getId(), gSub.getLastPostId());
 
